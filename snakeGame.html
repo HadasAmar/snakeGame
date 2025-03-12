@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,16 +16,19 @@
       color: #fff;
       font-family: Arial, sans-serif;
     }
+
     canvas {
       border: 2px solid #fff;
       background-color: #111;
     }
+
     .score {
       margin-top: 20px;
       font-size: 24px;
     }
   </style>
 </head>
+
 <body>
   <div>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
@@ -44,6 +48,23 @@
 
     // Food emoji
     const foodEmoji = '🍎';
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound() {
+      console.log('playSound');
+      if (audioContext.state == 'suspended') {
+        audioContext.resume(); // אם במצב מושהה, מפעילים אותו
+      }
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start();
+      setTimeout(() => oscillator.stop(), 100);
+    }
+
+
 
     function gameLoop() {
       if (gameStarted) {
@@ -77,6 +98,7 @@
         score++;
         document.getElementById('score').textContent = score;
         placeFood();
+        playSound();
       } else {
         snake.pop();
       }
@@ -114,6 +136,8 @@
       document.getElementById('score').textContent = score;
       placeFood();
       gameStarted = false;
+      audioContext.close();
+
     }
 
     window.addEventListener('keydown', e => {
@@ -132,4 +156,5 @@
     gameLoop();
   </script>
 </body>
+
 </html>
