@@ -30,3 +30,8 @@ To play the game:
 
    ```bash
    git clone https://github.com/HadasAmar/snakeGame.git
+   cd snakeGame
+
+2. open **index.html** in your browser  
+## enjoy the game!!🎮🎮
+   
